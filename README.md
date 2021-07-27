@@ -1,3 +1,4 @@
+[readme1.odt](https://github.com/MitaliBhalla/gocopy.go/files/6882985/readme1.odt)
 command line tool which clones the famous “wc” shell command# gocopy.goSyntax
 wcg wc [OPTION]... [FILE]...
 
