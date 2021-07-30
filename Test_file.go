@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	//"app/cmd"
-    W "app/cmd/workers"
+    W "gocopy/cmd/workers"
 )
 
 
