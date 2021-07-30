@@ -2,10 +2,14 @@
 (Refer readme1.odt)
 
 
+#**CLI TOOL USIN COBRA AND GOLANG**
+
+**##command line tool which clones the famous “wc” shell command# gocopy.goSyntax
+##wcg wc [OPTION]... [FILE]...
 
 
-command line tool which clones the famous “wc” shell command# gocopy.goSyntax
-wcg wc [OPTION]... [FILE]...
+
+
 
 
 The options below may be used to select which counts are printed, always in
