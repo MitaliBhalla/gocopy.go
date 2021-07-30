@@ -23,8 +23,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var char, bytes, line, max_line help_ref bool
-var help_ref = `Usage: wc [OPTION]... [FILE]...
+var char, bytes, line, max_line, help_ref bool
+
+//help document for uses like no commands, user guide and default case
+var help_document = `Usage: wc [OPTION]... [FILE]...
 or:  wc [OPTION]... --files0-from=F
 Print newline, word, and byte counts for each FILE, and a total line if
 more than one FILE is specified.  A word is a non-zero-length sequence of
@@ -57,12 +59,13 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
+
+	// switch in accordance with the functions described below
 	Run: func(cmd *cobra.Command, args []string) {
 		switch {
 
 		case char:
 			fmt.Println(CharCount(args[0]))
-
 		case bytes:
 			fmt.Println(ByteCount(args[0]))
 		case line:
@@ -70,9 +73,9 @@ to quickly create a Cobra application.`,
 		case max_line:
 			fmt.Println(MaxLine(args[0]))
 		case help_ref:
-			fmt.Println(help_ref)
-	    default:
-			fmt.Println("Invalid entered")
+			fmt.Println(help_document)
+		default:
+			fmt.Println(help_document)
 
 		}
 		//fmt.Println("wc called")
@@ -83,23 +86,27 @@ to quickly create a Cobra application.`,
 	},
 }
 
-func CharCount(name string) int {
+//function to count number of characters in the input file
+func CharCount(name string) (int, error) {
 	file, err := os.Open(name)
 	if err != nil {
-		fmt.Println("Error", err)
+		//fmt.Println("Error", err)
+		return -1, fmt.Errorf("unable to process due to %v", err)
 	}
 	chars_count := 0
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		chars_count += len(scanner.Text())
 	}
-	return chars_count
+	return chars_count, err
 }
 
-func LineCount(name string) int {
+//function to count number of lines in the input file
+func LineCount(name string) (int, error) {
 	file, err := os.Open(name)
 	if err != nil {
-		fmt.Println("Error", err)
+		//fmt.Println("Error", err)
+		return -1, fmt.Errorf("unable to process due to %v", err)
 	}
 	lines_count := 0
 	scanner := bufio.NewScanner(file)
@@ -108,35 +115,44 @@ func LineCount(name string) int {
 
 	}
 
-	return lines_count
+	return lines_count, err
 
 }
-func MaxLine(name string) int {
+
+//function to get the maximum line width
+func MaxLine(name string) (int, error) {
 	file, err := os.Open(name)
 	if err != nil {
-		fmt.Println("Error", err)
+		//fmt.Println("Error", err)
+		return -1, fmt.Errorf("unable to process due to %v", err)
 	}
-	char_count := 0
+	//char_count := 0
 	max_len := 0
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
-		if len(scanner.Text()) > max_len {
+		x := scanner.Text()
+		if len(x) > max_len {
 			max_len = len(scanner.Text())
 		}
 
 	}
-	return char_count
+	return max_len, err
 
 }
-func ByteCount(name string) int {
+
+//function to get the byte size of the input file
+func ByteCount(name string) (int, error) {
 	file, err := os.Stat(name)
 	if err != nil {
-		fmt.Println("Error", err)
+		//fmt.Println("Error", err)
+		return -1, fmt.Errorf("unable to process due to %v", err)
 
 	}
 	byte_size := int(file.Size())
-	return byte_size
+	return byte_size, err
 }
+
+//flag definitions as per accordance to the help document
 
 func init() {
 
